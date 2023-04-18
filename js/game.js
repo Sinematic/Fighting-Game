@@ -28,9 +28,9 @@ class Sprite {
         this.velocity = velocity
         this.height = 150
         this.width = 50
-        this.lastKey
         this.color = color
-        this.isAttacking = false
+        this.lastKey
+        this.isAttacking
         this.attackBox = {
             position: this.position,
             width: 100,
@@ -42,8 +42,10 @@ class Sprite {
         c.fillStyle = this.color
         c.fillRect(this.position.x, this.position.y, this.width, this.height)
 
-        c.fillStyle = "green"
-        c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
+        if (this.isAttacking) {
+            c.fillStyle = "green"
+            c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
+        }
     }
 
     update() {
@@ -68,6 +70,10 @@ class Sprite {
 
     attack() {
         this.isAttacking = true
+
+        setTimeout(() => {
+            this.isAttacking = false
+        }, 100)
     }
 }
 
@@ -135,10 +141,18 @@ document.addEventListener("keydown", (event) => {
         case "z":
             player.velocity.y = -15
             break
+        case " ":
+            player.attack()
+            break
     }
 
-    if (player.attackBox.position.x + player.attackBox.width >= enemy.position.x && player.attackBox.position.x <= enemy.position.x + enemy.width) {
-        console.log("touché !")
+    if (player.isAttacking) {
+        if (player.attackBox.position.x + player.attackBox.width >= enemy.position.x 
+            && player.attackBox.position.x <= enemy.position.x + enemy.width 
+            && player.attackBox.position.y + player.attackBox.height >= enemy.position.y
+            && player.attackBox.position.y <= enemy.position.y + enemy.height) {
+            console.log("touché !")
+        }
     }
 })
 
