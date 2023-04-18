@@ -136,6 +136,10 @@ document.addEventListener("keydown", (event) => {
             player.velocity.y = -15
             break
     }
+
+    if (player.attackBox.position.x + player.attackBox.width >= enemy.position.x && player.attackBox.position.x <= enemy.position.x + enemy.width) {
+        console.log("touché !")
+    }
 })
 
 document.addEventListener("keyup", (event) => {
@@ -152,4 +156,3 @@ document.addEventListener("keyup", (event) => {
             player.velocity.y = 0
     }
 })
-
