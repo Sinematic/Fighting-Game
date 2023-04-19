@@ -3,3 +3,10 @@ body {
     width: 100%;
     margin: auto;
 }
+
+#logs {
+    color: green;
+    font-size: 18px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 20px 0px 20px 20px;
+}

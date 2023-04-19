@@ -21,21 +21,27 @@ const keys = {
 }
 
 
+const logs = document.getElementById("logs")
+
 class Sprite {
 
-    constructor({position, velocity, color = "red"}) {
+    constructor({position, velocity, offset, color = "red"}) {
         this.position = position
         this.velocity = velocity
         this.height = 150
         this.width = 50
-        this.color = color
         this.lastKey
         this.isAttacking
         this.attackBox = {
-            position: this.position,
+            position: {
+                x: this.position.x,
+                y: this.position.y
+            },
+            offset,
             width: 100,
             height: 50
-        }
+        },
+        this.color = color
     }
 
     draw() {
@@ -50,6 +56,9 @@ class Sprite {
 
     update() {
         this.draw()
+        this.attackBox.position.x = this.position.x + this.attackBox.offset.x
+        this.attackBox.position.y = this.position.y + this.attackBox.offset.y
+
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
 
@@ -86,6 +95,10 @@ const player = new Sprite({
         x: 0,
         y: 10
     },
+    offset: {
+        x: 0,
+        y: 0
+    },
     color: "blue"
 })
 
@@ -99,6 +112,10 @@ const enemy = new Sprite({
     velocity: {
         x: 0,
         y: 10
+    },
+    offset: {
+        x: -50,
+        y: 0
     }
 })
 
@@ -143,6 +160,7 @@ document.addEventListener("keydown", (event) => {
             break
         case " ":
             player.attack()
+            enemy.attack()
             break
     }
 
@@ -151,7 +169,7 @@ document.addEventListener("keydown", (event) => {
             && player.attackBox.position.x <= enemy.position.x + enemy.width 
             && player.attackBox.position.y + player.attackBox.height >= enemy.position.y
             && player.attackBox.position.y <= enemy.position.y + enemy.height) {
-            console.log("touché !")
+            logs.innerHTML += "<p>Hit !</p>"
         }
     }
 })
